@@ -27,10 +27,9 @@ def run_batch_inference(k=50):
     model = dummy_model.__class__.load(model_path)
     user_item_matrix = sparse.load_npz(matrix_path)
     
-    print("-> Đang tính toán Trending Baseline...")
-    df = pd.read_parquet(data_path)
-    df['album_idx'] = df['album_id'].astype("category").cat.codes
-    popular_albums = df.groupby('album_idx')['num_repeat'].sum().nlargest(k).index.tolist()
+    print("-> Đang tính toán Trending Baseline từ ma trận")
+    album_sums = np.array(user_item_matrix.sum(axis=0)).flatten()
+    popular_albums = album_sums.argsort()[::-1][:k].tolist()
     
     collection.insert_one({
         "_id": "trending_baseline",
@@ -40,7 +39,7 @@ def run_batch_inference(k=50):
     
     num_users = user_item_matrix.shape[0]
     batch_docs = []
-    BATCH_SIZE = 10000 
+    BATCH_SIZE = 100 
     
     print(f"-> Bắt đầu tính toán cho {num_users} users...")
     for user_idx in range(num_users):
@@ -61,6 +60,8 @@ def run_batch_inference(k=50):
         if len(batch_docs) >= BATCH_SIZE:
             collection.insert_many(batch_docs)
             batch_docs = []
+            import gc
+            gc.collect()
             print(f"   + Đã lưu {user_idx + 1}/{num_users} users vào DB...")
             
     if batch_docs:
