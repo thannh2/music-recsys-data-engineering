@@ -1,23 +1,69 @@
-# Biến môi trường & API Keys
+#Môi trường ảo (Virtual Environments)
+
 .env
 venv/
 env/
+.venv/
 
-# Python & Jupyter
-__pycache__/
+#Python & Jupyter Cache
+
+pycache/
 *.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 .ipynb_checkpoints/
 
-# Dữ liệu cục bộ (Rất quan trọng)
+#IDE & Editor (VS Code, IntelliJ, etc.)
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+#Dữ liệu cục bộ
+
 data/
+database/
 *.csv
 *.json
 *.parquet
 *.avro
+*.npz
+*.npy
+artifacts/
 
-# Log hệ thống (Spark, Kafka, Airflow)
+#Log hệ thống & Spark
+
 logs/
+.log
 spark-warehouse/
 checkpoint/
 metastore_db/
 derby.log
+derby.log.
+
+OS generated files
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

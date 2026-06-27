@@ -1,0 +1,5 @@
+experiment_name: "tuning_als_v1"
+model:
+  factors: [1536]
+  regs: [0.2]
+  iterations: [20]
